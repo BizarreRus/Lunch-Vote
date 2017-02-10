@@ -1,0 +1,27 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!-- navbar -->
+<%-- //todo add style for hide logout+profile buttons when winfdows is small --%>
+<nav class="navbar navbar-default navbar-fixed-top custom-shadow">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="restaurants" class="navbar-brand">Lunch Vote App</a>
+        </div>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <ul class="nav navbar-nav hidden-sm hidden-xs">
+                <li class="active"><a href="${pageContext.request.contextPath}/restaurants/history">Show history</a></li>
+                <li><a href="${pageContext.request.contextPath}/restaurants/new">Add restaurant</a></li>
+            </ul>
+        </sec:authorize>
+        <ul class="nav navbar-nav navbar-right hidden-xs">
+            <li><a href="${pageContext.request.contextPath}/profile">
+                <span class="glyphicon glyphicon-user"> Profile</span>
+            </a></li>
+            <li>
+                <a href="${pageContext.request.contextPath}/logout" methods="post">
+                    <span class="glyphicon glyphicon-log-out"> Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
