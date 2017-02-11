@@ -73,22 +73,4 @@ class DishController {
         dishService.deleteAll(menuId, ADMIN_ID);
         return "redirect:/restaurants/" + restaurantId + "/menus/" + menuId + "/edit";
     }
-
-    //todo delete?
-    /*@RequestMapping(method = RequestMethod.GET)
-    public String getAll(Integer menuId, Integer userId, Map<String, Object> model) {
-        Collection<Dish> dishes = this.dishService.getAll(menuId, userId);
-        model.put("dishes", dishes);
-        return "dishes/dishesList";
-    }*/
-
-    //todo delete?
-    /*@RequestMapping("/{dishId}")
-    public ModelAndView get(@PathVariable("menuId") int menuId,
-                            @PathVariable("dishId") int dishId) {
-        ModelAndView mav = new ModelAndView("dishes/dishDetails");
-        mav.addObject(this.dishService.get(dishId, menuId, ADMIN_ID));
-        return mav;
-    }*/
-
 }

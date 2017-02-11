@@ -14,39 +14,40 @@
     <br/>
     <c:if test="${empty restaurants}">
         <br/><br/>
-        <h3>List of restaurants is empty for today.</h3>
+        <h3 class="text-center">List of restaurants is empty for today.</h3>
     </c:if>
     <div class="panel-group">
 
         <c:forEach items="${restaurants}" var="restaurant">
             <jsp:useBean id="restaurant" scope="page" type="net.bizare.lunchvoteapp.model.Restaurant"/>
-            <div class="panel-indentation">
+            <div id="${restaurant.id}" class="panel-indentation">
                 <div class="panel panel-info custom-shadow">
                     <div class="panel-heading">
 
                         <h4 class="panel-title">
-                        <div class="dropdown dropdown-btn-right">
-                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="caret"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                <li><a href="restaurants/${restaurant.id}/vote"><i
-                                        class="glyphicon glyphicon-thumbs-up button-color"></i><span
-                                        class="button-color"> Vote</span></a></li>
-                                <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="restaurants/${restaurant.id}/edit"><i
-                                            class="glyphicon glyphicon-pencil button-color"></i><span
-                                            class="button-color"> Edit</span></a>
-                                    </li>
-                                    <li><a href="restaurants/${restaurant.id}/delete"><i
-                                            class="glyphicon glyphicon-remove button-color"></i><span
-                                            class="button-color"> Delete</span></a>
-                                    </li>
-                                </sec:authorize>
-                            </ul>
-                        </div>
+                            <div class="dropdown dropdown-btn-right">
+                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i class="caret"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right"
+                                    aria-labelledby="dropdownMenu1">
+                                    <li><a href="javascript:vote(${restaurant.id});"><i
+                                            class="glyphicon glyphicon-thumbs-up button-color"></i><span
+                                            class="button-color"> Vote</span></a></li>
+                                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="restaurants/${restaurant.id}/edit"><i
+                                                class="glyphicon glyphicon-pencil button-color"></i><span
+                                                class="button-color"> Edit</span></a>
+                                        </li>
+                                        <li><a href="javascript:deleteRestaurant(${restaurant.id});"><i
+                                                class="glyphicon glyphicon-remove button-color"></i><span
+                                                class="button-color"> Delete</span></a>
+                                        </li>
+                                    </sec:authorize>
+                                </ul>
+                            </div>
                             <a data-toggle="collapse" href="#collapse${restaurant.id}">${restaurant.name} <span
                                     class="badge">${restaurant.numOfVotes}</span></a>
                         </h4>
@@ -85,6 +86,30 @@
             </div>
 
         </c:forEach>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="errorModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-center">Oops, error!</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" id="message"></p>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="text-center"><button type="button" class="btn btn-info" data-dismiss="modal">Close</button></div>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 </div>

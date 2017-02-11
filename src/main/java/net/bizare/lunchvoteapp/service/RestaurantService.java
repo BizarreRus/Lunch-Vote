@@ -1,6 +1,7 @@
 package net.bizare.lunchvoteapp.service;
 
 import net.bizare.lunchvoteapp.model.Restaurant;
+import net.bizare.lunchvoteapp.util.exception.OnlyOneVoteException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +14,8 @@ public interface RestaurantService {
 
     Restaurant update(Restaurant restaurant, int userId);
 
-    Restaurant vote(int id, int userId, LocalDateTime localDateTime);
+    //return an id of unvoted restaurant if exist
+    Integer vote(int id, int userId, LocalDateTime localDateTime) throws OnlyOneVoteException;
 
     void delete(int id, int userId);
 

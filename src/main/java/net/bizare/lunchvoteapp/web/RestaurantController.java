@@ -48,7 +48,6 @@ class RestaurantController {
         return CREATE_OR_UPDATE_RESTAURANT_FORM;
     }
 
-    //todo test meth. date should bind to object! think how to fix it
     @RequestMapping(value = "/restaurants", method = RequestMethod.POST)
     public String createOrUpdateRestaurant(@Valid Restaurant restaurant, BindingResult result) {
         if (result.hasErrors()) {
@@ -81,27 +80,4 @@ class RestaurantController {
         model.put("restaurants", restaurants);
         return "restaurants";
     }
-
-    //        todo delete mock data
-    @RequestMapping(value = "/restaurants/{restaurantId}/vote")
-    public String vote(@PathVariable("restaurantId") int restaurantId) {
-        LocalDateTime now = LocalDateTime.of(2016, Month.DECEMBER, 31, 10, 0);
-//        LocalDateTime now = LocalDateTime.now();
-        restaurantService.vote(restaurantId, ADMIN_ID, now);
-        return "redirect:/restaurants/";
-    }
-
-    @RequestMapping(value = "/restaurants/{restaurantId}/delete")
-    public String delete(@PathVariable("restaurantId") int restaurantId) {
-        restaurantService.delete(restaurantId, ADMIN_ID);
-        return "redirect:/restaurants/";
-    }
-
-    //todo delete?
-    @RequestMapping(value = "/restaurants/deleteAll")
-    public String deleteAll() {
-        restaurantService.deleteAll(ADMIN_ID);
-        return "redirect:/restaurants/";
-    }
-
 }

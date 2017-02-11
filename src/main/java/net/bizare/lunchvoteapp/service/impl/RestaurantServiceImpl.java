@@ -7,6 +7,7 @@ import net.bizare.lunchvoteapp.repository.RestaurantRepository;
 import net.bizare.lunchvoteapp.repository.UserRepository;
 import net.bizare.lunchvoteapp.service.RestaurantService;
 import net.bizare.lunchvoteapp.service.VoteService;
+import net.bizare.lunchvoteapp.util.exception.OnlyOneVoteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +50,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional
-    public Restaurant vote(int id, int userId, LocalDateTime today) {
+    public Integer vote(int id, int userId, LocalDateTime today) {
+        Integer unvotedId = null;
         checkPermissionedTime(LocalTime.from(today));
 
         Vote vote = voteService.getVoteOfUser(userId, LocalDate.from(today));
@@ -60,6 +62,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             Restaurant unvoted = restaurantRepository.get(vote.getRestaurant().getId());
             unvoted.setNumOfVotes(unvoted.getNumOfVotes() - 1);
             restaurantRepository.save(unvoted);
+            unvotedId = unvoted.getId();
         }
         Restaurant voted = restaurantRepository.get(id);
         voted.setNumOfVotes(voted.getNumOfVotes() + 1);
@@ -71,7 +74,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         } else {
             voteService.update(newVote);
         }
-        return voted;
+        return unvotedId;
     }
 
     @Override
