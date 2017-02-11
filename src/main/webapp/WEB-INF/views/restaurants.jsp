@@ -55,7 +55,7 @@
                     <div id="collapse${restaurant.id}" class="panel-collapse collapse custom-shadow">
 
                         <c:if test="${empty restaurant.menus}">
-                            <div class="panel-body">List of menus is empty</div>
+                            <div class="panel-body">List is empty</div>
                         </c:if>
                         <c:forEach items="${restaurant.menus}" var="menu">
                             <jsp:useBean id="menu" scope="page" type="net.bizare.lunchvoteapp.model.Menu"/>
@@ -96,16 +96,16 @@
 
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header error-title">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-center">Oops, error!</h4>
+                <p class="modal-title text-center">Oops, error!</p>
             </div>
             <div class="modal-body">
-                <p class="text-center" id="message"></p>
+                <h4 class="text-center" id="message"></h4>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer error-message">
                 <div class="row">
-                    <div class="text-center"><button type="button" class="btn btn-info" data-dismiss="modal">Close</button></div>
+                    <div class="text-center"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div>
                 </div>
 
             </div>
@@ -115,5 +115,6 @@
 </div>
 
 <jsp:include page="fragments/footer.jsp"/>
+<script src="${pageContext.request.contextPath}/resources/js/restaurants.js"></script>
 </body>
 </html>

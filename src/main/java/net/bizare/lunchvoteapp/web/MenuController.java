@@ -65,32 +65,9 @@ class MenuController {
         }
     }
 
-    @RequestMapping(value = "/{menuId}/delete")
-    public String delete(@PathVariable("menuId") int menuId, @PathVariable("restaurantId") int restaurantId) {
-        menuService.delete(menuId, restaurantId, ADMIN_ID);
-        return "redirect:/restaurants/" + restaurantId + "/edit";
-    }
-
     @RequestMapping(value = "/deleteAll")
     public String deleteAll(@PathVariable("restaurantId") int restaurantId) {
         menuService.deleteAll(restaurantId, ADMIN_ID);
         return "redirect:/restaurants/" + restaurantId + "/edit/";
     }
-
-    //todo delete?
-    /*@RequestMapping(method = RequestMethod.GET)
-    public String getAll(@PathVariable("restaurantId") int restaurantId, Map<String, Object> model) {
-        Collection<Menu> menus = menuService.getAll(restaurantId, ADMIN_ID);
-        model.put("menus", menus);
-        return "menus/menusList";
-    }*/
-
-    //todo delete?
-    /*@RequestMapping("/{menuId}")
-    public ModelAndView get(@PathVariable("menuId") int menuId, @PathVariable("restaurantId") int restaurantId) {
-        ModelAndView mav = new ModelAndView("menus/menuDetails");
-        mav.addObject(menuService.get(menuId, restaurantId, ADMIN_ID));
-        return mav;
-    }*/
-
 }

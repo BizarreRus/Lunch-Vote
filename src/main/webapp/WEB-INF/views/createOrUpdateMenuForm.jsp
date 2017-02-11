@@ -11,7 +11,7 @@
 
 <div class="container">
     <c:set var="createOrUpdate" value="${empty menu.id ? 'Create' : 'Edit'}"/>
-    <p class="title-font"><c:out value="${createOrUpdate}"/> Menu</p>
+    <p class="title-font">Menu page</p>
 
     <jsp:useBean id="menu" type="net.bizare.lunchvoteapp.model.Menu" scope="request"/>
 
@@ -95,13 +95,12 @@
                     <div id="collapse1" class="panel-collapse collapse">
 
                         <c:if test="${empty menu.dishes}">
-                            <div class="panel-body">List of dishes is empty</div>
+                            <div class="panel-body">List is empty</div>
                         </c:if>
 
                         <c:forEach items="${menu.dishes}" var="dish">
-                            <div class="panel-body">
+                            <div id="${dish.id}" class="panel-body">
                                     ${dish.name}
-
 
                                 <div class="dropdown dropdown-btn-right">
                                     <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu2"
@@ -115,7 +114,7 @@
                                                     class="button-color"> Edit</span></a>
                                         </li>
                                         <li>
-                                            <a href="restaurants/${restaurantId}/menus/${menu.id}/dishes/${dish.id}/delete"><i
+                                            <a href="javascript:deleteDish(${menu.id}, ${dish.id});"><i
                                                     class="glyphicon glyphicon-remove button-color"></i><span
                                                     class="button-color"> Delete</span></a>
                                         </li>
@@ -134,5 +133,6 @@
 </div>
 
 <jsp:include page="fragments/footer.jsp"/>
+<script src="${pageContext.request.contextPath}/resources/js/dishes.js"></script>
 </body>
 </html>

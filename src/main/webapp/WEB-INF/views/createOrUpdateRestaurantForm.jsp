@@ -11,7 +11,7 @@
 
 <div class="container">
     <c:set var="createOrUpdate" value="${empty restaurant.id ? 'Create' : 'Edit'}"/>
-    <p class="title-font"><c:out value="${createOrUpdate}"/> Restaurant</p>
+    <p class="title-font">Restaurant page</p>
 
     <jsp:useBean id="restaurant" type="net.bizare.lunchvoteapp.model.Restaurant" scope="request"/>
 
@@ -101,13 +101,12 @@
                     <div id="collapse1" class="panel-collapse collapse">
 
                         <c:if test="${empty restaurant.menus}">
-                            <div class="panel-body">List of menus is empty</div>
+                            <div class="panel-body">List is empty</div>
                         </c:if>
 
                         <c:forEach items="${restaurant.menus}" var="menu">
-                            <div class="panel-body">
+                            <div id="${menu.id}" class="panel-body">
                                     ${menu.name}
-
 
                                 <div class="dropdown dropdown-btn-right">
                                     <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu2"
@@ -119,7 +118,7 @@
                                                 class="glyphicon glyphicon-pencil button-color"></i><span
                                                 class="button-color"> Edit</span></a>
                                         </li>
-                                        <li><a href="restaurants/${restaurant.id}/menus/${menu.id}/delete"><i
+                                        <li><a href="javascript:deleteMenu(${restaurant.id}, ${menu.id});"><i
                                                 class="glyphicon glyphicon-remove button-color"></i><span
                                                 class="button-color"> Delete</span></a>
                                         </li>
@@ -138,5 +137,6 @@
 </div>
 
 <jsp:include page="fragments/footer.jsp"/>
+<script src="${pageContext.request.contextPath}/resources/js/menus.js"></script>
 </body>
 </html>

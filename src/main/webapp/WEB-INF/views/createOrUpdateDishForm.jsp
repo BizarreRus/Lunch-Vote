@@ -11,7 +11,7 @@
 
 <div class="container">
     <c:set var="createOrUpdate" value="${empty dish.id ? 'Create' : 'Edit'}"/>
-    <p class="title-font"><c:out value="${createOrUpdate}"/> Dish</p>
+    <p class="title-font">Dish page</p>
 
     <jsp:useBean id="dish" type="net.bizare.lunchvoteapp.model.Dish" scope="request"/>
 

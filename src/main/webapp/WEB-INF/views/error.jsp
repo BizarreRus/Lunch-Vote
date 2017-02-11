@@ -14,7 +14,7 @@
 </nav>
 
 <div class="container">
-    <p class="title-font error-color">Oops, error!</p>
+    <p class="title-font error-title">Oops, error!</p>
 
 
     <div class="row">

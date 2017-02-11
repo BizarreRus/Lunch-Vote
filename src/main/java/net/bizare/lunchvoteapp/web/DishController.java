@@ -59,14 +59,6 @@ class DishController {
         }
     }
 
-    @RequestMapping(value = "/{dishId}/delete")
-    public String delete(@PathVariable("restaurantId") int restaurantId,
-                         @PathVariable("menuId") int menuId,
-                         @PathVariable("dishId") int dishId) {
-        dishService.delete(dishId, menuId, ADMIN_ID);
-        return "redirect:/restaurants/" + restaurantId + "/menus/" + menuId + "/edit";
-    }
-
     @RequestMapping(value = "/deleteAll")
     public String deleteAll(@PathVariable("restaurantId") int restaurantId,
                             @PathVariable("menuId") int menuId) {
