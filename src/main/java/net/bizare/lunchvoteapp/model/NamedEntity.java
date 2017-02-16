@@ -1,6 +1,6 @@
 package net.bizare.lunchvoteapp.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class NamedEntity extends BaseEntity {
 
-    @NotEmpty(message = "Please enter name.")
+    @NotBlank
     @Column(name = "name", nullable = false)
     protected String name;
 

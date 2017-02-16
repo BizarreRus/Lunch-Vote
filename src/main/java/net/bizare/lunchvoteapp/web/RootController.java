@@ -1,48 +1,39 @@
 package net.bizare.lunchvoteapp.web;
 
-import net.bizare.lunchvoteapp.model.Role;
-import net.bizare.lunchvoteapp.model.User;
-import net.bizare.lunchvoteapp.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import net.bizare.lunchvoteapp.AuthorizedUser;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
 
 @Controller
 public class RootController {
 
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
-    public ModelAndView login(@RequestParam(value = "error", required = false) String error) {
-        ModelAndView mav = new ModelAndView();
-        if (error != null) {
-            mav.addObject("error", "Invalid username or password");
-        }
-        mav.setViewName("login");
-        return mav;
+    @GetMapping("/")
+    public String root() {
+        return "redirect:/restaurants";
     }
 
-    @RequestMapping(value = "/403", method = RequestMethod.GET)
-    public ModelAndView accesssDenied() {
+    @GetMapping(value = "/login")
+    public String login(ModelMap model,
+                        @RequestParam(value = "error", required = false) boolean error) {
+        model.put("error", error);
+        return "login";
+    }
 
+    @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
+    public ModelAndView accessDenied(Principal user) {
         ModelAndView model = new ModelAndView();
-
-        //check if user is login
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            UserDetails userDetail = (UserDetails) auth.getPrincipal();
-            model.addObject("username", userDetail.getUsername());
+        if (user != null) {
+            model.addObject("msg", "Hi " + AuthorizedUser.get().getUserTo().getName()
+                    + ", you do not have permission to access this page!");
+        } else {
+            model.addObject("msg",
+                    "You do not have permission to access this page!");
         }
-
-        model.setViewName("403");
+        model.setViewName("accessDenied");
         return model;
     }
-
-
 }

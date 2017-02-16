@@ -12,6 +12,7 @@
 <div class="container">
     <c:set var="createOrUpdate" value="${empty menu.id ? 'Create' : 'Edit'}"/>
     <p class="title-font">Menu page</p>
+    <hr/>
 
     <jsp:useBean id="menu" type="net.bizare.lunchvoteapp.model.Menu" scope="request"/>
 
@@ -36,8 +37,9 @@
                                 <input type="hidden" name="id" value="${menu.id}">
 
                                 <div class="form-group">
-                                    <input type="text" name="name" tabindex="1" class="form-control"
-                                           placeholder="Menu name" value="${menu.name}">
+                                    <form:input path="name" type="text" name="name" tabindex="1" class="form-control"
+                                           placeholder="Menu name" value="${menu.name}"/>
+                                    <form:errors path="name" cssClass="error-message"/>
                                 </div>
 
                                 <div class="form-group">

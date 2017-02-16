@@ -2,6 +2,7 @@ package net.bizare.lunchvoteapp.model;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import java.util.Set;
         @NamedQuery(name = User.BY_EMAIL, query = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=:email"),
 })
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends NamedEntity {
 
     public static final String DELETE = "User.delete";
@@ -23,13 +24,13 @@ public class User extends NamedEntity {
     public static final String BY_EMAIL = "User.getByEmail";
 
     @Column(name = "password", nullable = false)
-    @NotEmpty(message = "Please enter password.")
-    @Length(min = 5, message = "Password should contain 5 symbols min.")
+    @NotBlank
+    @Length(min = 5)
     private String password;
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
-    @NotEmpty
+    @NotBlank
     private String email;
 
     @Column(name = "registered", columnDefinition = "timestamp default now()")

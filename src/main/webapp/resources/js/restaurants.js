@@ -36,3 +36,16 @@ function failNoty() {
     $("#message").text(message);
     $('#errorModal').modal();
 }
+
+function removeElement(id) {
+    var elem = document.getElementById(id);
+    var parent = elem.parentNode;
+    if (parent.childElementCount == 1) {
+        $('#chooseMsg').remove();
+        jQuery('<div/>', {
+            text: 'List of restaurants is empty for today.',
+            class: 'description-message'
+        }).appendTo(parent);
+    }
+    return parent.removeChild(elem);
+}

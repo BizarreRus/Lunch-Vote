@@ -5,6 +5,7 @@ import org.junit.Assert;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
 public class ModelMatcher<T> {
     private static final Comparator DEFAULT_COMPARATOR =
             (Object expected, Object actual) -> expected == actual || String.valueOf(expected).equals(String.valueOf(actual));

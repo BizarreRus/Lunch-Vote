@@ -1,7 +1,6 @@
 package net.bizare.lunchvoteapp.service;
 
 import net.bizare.lunchvoteapp.model.Menu;
-import net.bizare.lunchvoteapp.util.exception.NotEnoughRigthsException;
 import net.bizare.lunchvoteapp.util.exception.NotFoundException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,17 +17,13 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
 import static net.bizare.lunchvoteapp.MenuTestData.*;
 import static net.bizare.lunchvoteapp.RestaurantTestData.RESTAURANT1_ID;
-import static net.bizare.lunchvoteapp.RestaurantTestData.NONEXISTED_RESTAURANT_ID;
-import static net.bizare.lunchvoteapp.UserTestData.ADMIN_ID;
-import static net.bizare.lunchvoteapp.UserTestData.USER_ID;
-
+import static net.bizare.lunchvoteapp.RestaurantTestData.NON_EXISTED_RESTAURANT_ID;
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
@@ -64,95 +59,63 @@ public class MenuServiceImplTest {
     @Test
     public void testSave() throws Exception {
         Menu created = getCreated();
-        menuService.save(created, RESTAURANT1_ID, ADMIN_ID);
-        MATCHER.assertCollectionEquals(getSortedMenus(Arrays.asList(created, MENU1, MENU2)),
-                menuService.getAll(RESTAURANT1_ID, ADMIN_ID));
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testSaveNotEnoughRights() throws Exception {
-        Menu created = getCreated();
-        menuService.save(created, RESTAURANT1_ID, USER_ID);
+        menuService.save(created, RESTAURANT1_ID);
+        MATCHER.assertCollectionEquals(getSortedMenus(Arrays.asList(created, MENU1)),
+                menuService.getAll(RESTAURANT1_ID));
     }
 
     @Test(expected = NotFoundException.class)
     public void testSaveNotFound() throws Exception {
         Menu created = getCreated();
-        menuService.save(created, NONEXISTED_RESTAURANT_ID, ADMIN_ID);
+        menuService.save(created, NON_EXISTED_RESTAURANT_ID);
     }
 
     @Test
     public void testUpdate() throws Exception {
         Menu updated = getUpdated();
-        menuService.update(updated, RESTAURANT1_ID, ADMIN_ID);
-        MATCHER.assertEquals(updated, menuService.get(MENU_ID1, RESTAURANT1_ID, ADMIN_ID));
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testUpdateNotEnoughRights() throws Exception {
-        Menu updated = getUpdated();
-        menuService.update(updated, RESTAURANT1_ID, USER_ID);
+        menuService.update(updated, RESTAURANT1_ID);
+        MATCHER.assertEquals(updated, menuService.get(MENU_ID1, RESTAURANT1_ID));
     }
 
     @Test(expected = NotFoundException.class)
     public void testUpdateNotFount() throws Exception {
         Menu updated = getUpdated();
-        updated.setId(NONEXISTED_MENU_ID);
-        menuService.update(updated, RESTAURANT1_ID, ADMIN_ID);
+        updated.setId(NON_EXISTED_MENU_ID);
+        menuService.update(updated, RESTAURANT1_ID);
     }
 
     @Test
     public void testDelete() throws Exception {
-        menuService.delete(MENU_ID1, RESTAURANT1_ID, ADMIN_ID);
-        MATCHER.assertCollectionEquals(getSortedMenus(getSortedMenus(Collections.singletonList(MENU2))),
-                menuService.getAll(RESTAURANT1_ID, ADMIN_ID));
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testDeleteNotEnoughRights() throws Exception {
-        menuService.delete(MENU_ID1, RESTAURANT1_ID, USER_ID);
+        menuService.delete(MENU_ID1 + 1, RESTAURANT1_ID + 1);
+        MATCHER.assertCollectionEquals(getSortedMenus(Collections.singletonList(MENU3)),
+                menuService.getAll(RESTAURANT1_ID + 1));
     }
 
     @Test(expected = NotFoundException.class)
     public void testDeleteNotFount() throws Exception {
-        menuService.delete(NONEXISTED_MENU_ID, RESTAURANT1_ID, ADMIN_ID);
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testDeleteAllNotEnoughRights() throws Exception {
-        menuService.deleteAll(RESTAURANT1_ID, USER_ID);
+        menuService.delete(NON_EXISTED_MENU_ID, RESTAURANT1_ID);
     }
 
     @Test(expected = NotFoundException.class)
     public void testDeleteAllNotFount() throws Exception {
-        menuService.deleteAll(NONEXISTED_RESTAURANT_ID, ADMIN_ID);
+        menuService.deleteAll(NON_EXISTED_RESTAURANT_ID);
     }
 
     @Test
     public void testGet() throws Exception {
-        Menu actual = menuService.get(MENU_ID1, RESTAURANT1_ID, ADMIN_ID);
+        Menu actual = menuService.get(MENU_ID1, RESTAURANT1_ID);
         MATCHER.assertEquals(actual, MENU1);
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testGetNotEnoughRights() throws Exception {
-        menuService.get(MENU_ID1, RESTAURANT1_ID, USER_ID);
     }
 
     @Test(expected = NotFoundException.class)
     public void testGetNotFount() throws Exception {
-        menuService.get(NONEXISTED_MENU_ID, RESTAURANT1_ID, ADMIN_ID);
+        menuService.get(NON_EXISTED_MENU_ID, RESTAURANT1_ID);
     }
 
     @Test
     public void testGetAll() throws Exception {
-        Collection<Menu> menus = menuService.getAll(RESTAURANT1_ID, ADMIN_ID);
-        MATCHER.assertCollectionEquals(menus, getSortedMenus(getSortedMenus(Arrays.asList(MENU1, MENU2))));
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testGetAllNotEnoughRights() throws Exception {
-        menuService.getAll(RESTAURANT1_ID, USER_ID);
+        Collection<Menu> menus = menuService.getAll(RESTAURANT1_ID);
+        MATCHER.assertCollectionEquals(menus, getSortedMenus(Collections.singletonList(MENU1)));
     }
 
     @Test

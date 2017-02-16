@@ -5,6 +5,7 @@
 <head>
     <title>Restaurant page</title>
     <jsp:include page="fragments/headTag.jsp"/>
+    <link rel="stylesheet" href="webjars/datetimepicker/2.5.4/jquery.datetimepicker.css">
 </head>
 <body>
 <jsp:include page="fragments/navbar.jsp"/>
@@ -12,6 +13,7 @@
 <div class="container">
     <c:set var="createOrUpdate" value="${empty restaurant.id ? 'Create' : 'Edit'}"/>
     <p class="title-font">Restaurant page</p>
+    <hr/>
 
     <jsp:useBean id="restaurant" type="net.bizare.lunchvoteapp.model.Restaurant" scope="request"/>
 
@@ -33,27 +35,37 @@
                             <form:form id="login-form" name="form_login" action="restaurants" method="post" role="form"
                                        style="display: block;" commandName="restaurant">
                                 <input type="hidden" name="id" value="${restaurant.id}">
-                                <input type="hidden" name="numOfVotes" value="${restaurant.numOfVotes}">
 
                                 <div class="form-group">
-                                    <input type="text" name="name" tabindex="1" class="form-control"
-                                           placeholder="Restaurant name" value="${restaurant.name}">
+                                    <form:input path="name" type="text" name="name" class="form-control"
+                                                placeholder="Restaurant name" value="${restaurant.name}"/>
+                                    <form:errors path="name" cssClass="error-message"/>
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="date" name="visitDate" tabindex="2"
-                                           class="form-control" placeholder="Visit date"
-                                           value="${restaurant.visitDate}">
+                                    <form:input id="visitDate" path="visitDate" type="text" name="visitDate"
+                                                class="form-control" placeholder="Visit date"
+                                                value="${restaurant.visitDate}"/>
+                                    <form:errors path="visitDate" cssClass="error-message"/>
                                 </div>
+
+                                <c:set var="hide" value="${today ? 'hidden' : 'number'}"/>
+
+                                    <div class="form-group">
+                                        <form:input path="numOfVotes" type="${hide}" name="numOfVotes"
+                                                    class="form-control" placeholder="Number of votes"
+                                                    value="${restaurant.numOfVotes}"/>
+                                        <form:errors path="numOfVotes" cssClass="error-message"/>
+                                    </div>
 
                                 <div class="form-group">
                                     <div class="row">
                                         <div class=col-xs-6>
-                                            <input type="submit" name="submit" tabindex="4"
+                                            <input type="submit" name="submit"
                                                    class="form-control btn btn-register" value="${createOrUpdate}">
                                         </div>
                                         <div class="col-xs-6">
-                                            <a href="restaurants" name="submit" tabindex="5"
+                                            <a href="restaurants" name="submit"
                                                class="form-control btn btn-login">cancel</a>
                                         </div>
                                     </div>
@@ -138,5 +150,6 @@
 
 <jsp:include page="fragments/footer.jsp"/>
 <script src="${pageContext.request.contextPath}/resources/js/menus.js"></script>
+<script type="text/javascript" src="webjars/datetimepicker/2.5.4/build/jquery.datetimepicker.full.min.js" defer></script>
 </body>
 </html>

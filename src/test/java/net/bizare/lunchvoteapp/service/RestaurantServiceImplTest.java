@@ -1,7 +1,6 @@
 package net.bizare.lunchvoteapp.service;
 
 import net.bizare.lunchvoteapp.model.Restaurant;
-import net.bizare.lunchvoteapp.util.exception.NotEnoughRigthsException;
 import net.bizare.lunchvoteapp.util.exception.NotFoundException;
 import net.bizare.lunchvoteapp.util.exception.OnlyOneVoteException;
 import net.bizare.lunchvoteapp.util.exception.PermissibleTimeException;
@@ -25,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static net.bizare.lunchvoteapp.RestaurantTestData.*;
-import static net.bizare.lunchvoteapp.UserTestData.ADMIN_ID;
 import static net.bizare.lunchvoteapp.UserTestData.USER_ID;
 
 @ContextConfiguration({
@@ -63,116 +61,83 @@ public class RestaurantServiceImplTest {
     @Test
     public void testSave() throws Exception {
         Restaurant created = getCreated();
-        restaurantService.save(created, ADMIN_ID);
-        MATCHER.assertCollectionEquals(getSortedRestaurants(Arrays.asList(created, RESTAURANT1, RESTAURANT2, RESTAURANT3, RESTAURANT4)),
-                restaurantService.getAll(ADMIN_ID));
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testSaveNotEnoughRights() throws Exception {
-        Restaurant created = getCreated();
-        restaurantService.save(created, USER_ID);
+        restaurantService.save(created);
+        MATCHER.assertCollectionEquals(getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3,created)),
+                restaurantService.getAll());
     }
 
     @Test
     public void testUpdate() throws Exception {
         Restaurant updated = getUpdated();
-        restaurantService.update(updated, ADMIN_ID);
-        MATCHER.assertEquals(updated, restaurantService.get(RESTAURANT1_ID, ADMIN_ID));
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testUpdateNotEnoughRights() throws Exception {
-        Restaurant updated = getUpdated();
-        restaurantService.update(updated, USER_ID);
+        restaurantService.update(updated);
+        MATCHER.assertEquals(updated, restaurantService.get(RESTAURANT1_ID));
     }
 
     @Test
     public void testAddVote() throws Exception {
-        restaurantService.vote(RESTAURANT1_ID + 1, USER_ID, AUTHORIZED_DATE_TIME);
+        restaurantService.vote(RESTAURANT1_ID + 1, USER_ID, PERMISSIBLE_DATE_TIME);
 
         Restaurant voted = new Restaurant(RESTAURANT2);
         Restaurant unVoted = new Restaurant(RESTAURANT1);
         voted.setNumOfVotes(RESTAURANT2.getNumOfVotes() + 1);
         unVoted.setNumOfVotes(RESTAURANT1.getNumOfVotes() - 1);
 
-        Restaurant votedDB = restaurantService.get(RESTAURANT1_ID + 1, ADMIN_ID);
+        Restaurant votedDB = restaurantService.get(RESTAURANT1_ID + 1);
         MATCHER.assertEquals(voted, votedDB);
-        Restaurant unVotedDB = restaurantService.get(RESTAURANT1_ID, ADMIN_ID);
+        Restaurant unVotedDB = restaurantService.get(RESTAURANT1_ID);
         MATCHER.assertEquals(unVoted, unVotedDB);
     }
 
     @Test(expected = OnlyOneVoteException.class)
     public void testAddVoteOnlyOneVote() throws Exception {
-        restaurantService.vote(RESTAURANT1_ID, USER_ID, AUTHORIZED_DATE_TIME);
+        restaurantService.vote(RESTAURANT1_ID, USER_ID, PERMISSIBLE_DATE_TIME);
     }
 
    @Test(expected = PermissibleTimeException.class)
     public void testAddVotePermissibleTime() throws Exception {
-        restaurantService.vote(RESTAURANT1_ID, USER_ID, FORBIDEN_DATE_TIME);
+        restaurantService.vote(RESTAURANT1_ID, USER_ID, NON_PERMISSIBLE_DATE_TIME);
     }
 
     @Test
     public void testDelete() throws Exception {
-        restaurantService.delete(RESTAURANT1_ID, ADMIN_ID);
-        MATCHER.assertCollectionEquals(getSortedRestaurants(Arrays.asList(RESTAURANT2, RESTAURANT3, RESTAURANT4)),
-                restaurantService.getAll(ADMIN_ID));
+        restaurantService.delete(RESTAURANT1_ID);
+        MATCHER.assertCollectionEquals(getSortedRestaurants(Arrays.asList(RESTAURANT2, RESTAURANT3)),
+                restaurantService.getAll());
     }
 
     @Test(expected = NotFoundException.class)
     public void testDeleteNotFound() throws Exception {
-        restaurantService.delete(RESTAURANT1_ID + 100, ADMIN_ID);
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testDeleteNotEnoughRights() throws Exception {
-        restaurantService.delete(RESTAURANT1_ID, USER_ID);
+        restaurantService.delete(RESTAURANT1_ID + 100);
     }
 
     @Test
     public void testDeleteAll() throws Exception {
-        restaurantService.deleteAll(ADMIN_ID);
+        restaurantService.deleteAll();
         MATCHER.assertCollectionEquals(new ArrayList<>(),
-                restaurantService.getAll(ADMIN_ID));
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testDeleteAllNotEnoughRights() throws Exception {
-        restaurantService.deleteAll(USER_ID);
+                restaurantService.getAll());
     }
 
     @Test
     public void testGet() throws Exception {
-        Restaurant actual = restaurantService.get(RESTAURANT1_ID, ADMIN_ID);
+        Restaurant actual = restaurantService.get(RESTAURANT1_ID);
         MATCHER.assertEquals(actual, RESTAURANT1);
-    }
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testGetNotEnoughRights() throws Exception {
-        restaurantService.get(RESTAURANT1_ID, USER_ID);
     }
 
     @Test(expected = NotFoundException.class)
     public void testGetNotFound() throws Exception {
-        restaurantService.get(RESTAURANT1_ID + 100, ADMIN_ID);
+        restaurantService.get(RESTAURANT1_ID + 100);
     }
 
     @Test
     public void testGetAll() throws Exception {
-        Collection<Restaurant> restaurants = restaurantService.getAll(ADMIN_ID);
-        MATCHER.assertCollectionEquals(restaurants, getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3, RESTAURANT4)));
+        Collection<Restaurant> restaurants = restaurantService.getAll();
+        MATCHER.assertCollectionEquals(restaurants, getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3)));
     }
 
     @Test
     public void testGetAllOfToday() throws Exception {
         Collection<Restaurant> restaurants = restaurantService.getAllOfToday(TEST_DATE);
-        MATCHER.assertCollectionEquals(restaurants, getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3, RESTAURANT4)));
-    }
-
-
-    @Test(expected = NotEnoughRigthsException.class)
-    public void testGetAllNotEnoughRights() throws Exception {
-        restaurantService.getAll(USER_ID);
+        MATCHER.assertCollectionEquals(restaurants, getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3)));
     }
 
     @Test

@@ -1,9 +1,10 @@
 package net.bizare.lunchvoteapp.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
 @NamedQueries({
         @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish d WHERE d.id=:id AND d.menu.id=:menu_id"),
@@ -21,6 +22,8 @@ public class Dish extends NamedEntity {
 
     @Column(name = "price")
     @Digits(fraction = 2, integer = 3)
+    @NotNull
+    @Range(min = 10, max = 2000)
     private Double price;
 
     @ManyToOne

@@ -1,21 +1,8 @@
-/* Login js */
 $(function () {
-
-    $('#login-form-link').click(function (e) {
-        $("#login-form").delay(100).fadeIn(100);
-        $("#register-form").fadeOut(100);
-        $('#register-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
+    $("#visitDate").datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d'
     });
-    $('#register-form-link').click(function (e) {
-        $("#register-form").delay(100).fadeIn(100);
-        $("#login-form").fadeOut(100);
-        $('#login-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
-    });
-
 });
 
 function ajaxRequest(ajaxUrl, id) {
@@ -26,16 +13,4 @@ function ajaxRequest(ajaxUrl, id) {
             removeElement(id);
         }
     });
-}
-
-function removeElement(id) {
-    var elem = document.getElementById(id);
-    var parent = elem.parentNode;
-    if (parent.childElementCount == 1){
-        jQuery('<div/>', {
-            text: 'List is empty',
-            class: 'panel-body'
-        }).appendTo(parent);
-    }
-    return parent.removeChild(elem);
 }

@@ -10,20 +10,20 @@ import java.util.Collection;
 
 public interface RestaurantService {
 
-    Restaurant save(Restaurant restaurant, int userId);
+    Restaurant save(Restaurant restaurant);
 
-    Restaurant update(Restaurant restaurant, int userId);
+    Restaurant update(Restaurant restaurant);
 
     //return an id of unvoted restaurant if exist
     Integer vote(int id, int userId, LocalDateTime localDateTime) throws OnlyOneVoteException;
 
-    void delete(int id, int userId);
+    void delete(int id);
 
-    void deleteAll(int userId);
+    void deleteAll();
 
-    Restaurant get(int id, int userId);
+    Restaurant get(int id);
 
-    Collection<Restaurant> getAll(int userId);
+    Collection<Restaurant> getAll();
 
     Collection<Restaurant> getAllOfToday(LocalDate date);
 

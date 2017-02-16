@@ -27,7 +27,7 @@ CREATE TABLE restaurants (
   id           INTEGER IDENTITY PRIMARY KEY,
   name         VARCHAR(255) NOT NULL,
   num_of_votes INTEGER DEFAULT 0,
-  date         DATE         NOT NULL
+  date         DATE DEFAULT now()
 );
 
 CREATE TABLE user_roles

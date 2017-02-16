@@ -1,6 +1,7 @@
 package net.bizare.lunchvoteapp.service;
 
 import net.bizare.lunchvoteapp.model.User;
+import net.bizare.lunchvoteapp.to.UserTo;
 import net.bizare.lunchvoteapp.util.exception.NotFoundException;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public interface UserService {
     List<User> getAll();
 
     void update(User user);
+
+    void update(UserTo userTo);
 
     User getByEmail(String email) throws NotFoundException;
 }

@@ -10,15 +10,13 @@ import java.util.stream.Collectors;
 public class MenuTestData {
     public static final ModelMatcher<Menu> MATCHER = new ModelMatcher<>();
 
-    public static final int MENU_ID1 = 8;
-    public static final int NONEXISTED_MENU_ID = 100;
+    public static final int MENU_ID1 = 6;
+    public static final int NON_EXISTED_MENU_ID = 100;
 
-    public static final Menu MENU1 = new Menu(MENU_ID1, "Первое меню");
-    public static final Menu MENU2 = new Menu(MENU_ID1 + 1, "Второе меню");
-
-
-//  (8, 'Первое меню', 3),
-//          (9, 'Второе меню', 3);
+    public static final Menu MENU1 = new Menu(MENU_ID1, "Menu turistico");
+    public static final Menu MENU2 = new Menu(MENU_ID1 + 1, "Menu di pesce");
+    public static final Menu MENU3 = new Menu(MENU_ID1 + 2, "Menu di carne");
+    public static final Menu MENU4 = new Menu(MENU_ID1 + 3, "Menu del giorno");
 
     public static List<Menu> getSortedMenus(List<Menu> menus) {
         return menus.stream()
@@ -27,10 +25,10 @@ public class MenuTestData {
     }
 
     public static Menu getCreated() {
-        return new Menu(null, "Созданное меню");
+        return new Menu(null, "Created menu");
     }
 
     public static Menu getUpdated() {
-        return new Menu(MENU_ID1, "Обновленное меню");
+        return new Menu(MENU_ID1, "Updated menu");
     }
 }

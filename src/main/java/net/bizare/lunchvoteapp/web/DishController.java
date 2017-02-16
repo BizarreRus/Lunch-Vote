@@ -7,17 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.Map;
 
 @Controller
 @RequestMapping("restaurants/{restaurantId}/menus/{menuId}/dishes")
 class DishController {
     private static final String CREATE_OR_UPDATE_DISH_FORM = "createOrUpdateDishForm";
-    private static final int ADMIN_ID = 2;
 
     @Autowired
     private DishService dishService;
@@ -36,7 +32,7 @@ class DishController {
     public String update(@PathVariable("restaurantId") int restaurantId,
                          @PathVariable("menuId") int menuId,
                          @PathVariable("dishId") int dishId, Model model) {
-        Dish dish = this.dishService.get(dishId, menuId, ADMIN_ID);
+        Dish dish = this.dishService.get(dishId, menuId);
         model.addAttribute("dish", dish);
         model.addAttribute("restaurantId", restaurantId);
         model.addAttribute("menuId", menuId);
@@ -51,9 +47,9 @@ class DishController {
             return CREATE_OR_UPDATE_DISH_FORM;
         } else {
             if (dish.isNew()) {
-                dishService.save(dish, restaurantId, menuId, ADMIN_ID);
+                dishService.save(dish, restaurantId, menuId);
             } else {
-                dishService.update(dish, restaurantId, menuId, ADMIN_ID);
+                dishService.update(dish, restaurantId, menuId);
             }
             return "redirect:/restaurants/" + restaurantId + "/menus/" + menuId + "/edit";
         }
@@ -62,7 +58,7 @@ class DishController {
     @RequestMapping(value = "/deleteAll")
     public String deleteAll(@PathVariable("restaurantId") int restaurantId,
                             @PathVariable("menuId") int menuId) {
-        dishService.deleteAll(menuId, ADMIN_ID);
+        dishService.deleteAll(menuId);
         return "redirect:/restaurants/" + restaurantId + "/menus/" + menuId + "/edit";
     }
 }

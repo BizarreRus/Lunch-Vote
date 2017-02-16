@@ -1,30 +1,21 @@
 package net.bizare.lunchvoteapp.web;
 
 import net.bizare.lunchvoteapp.model.Menu;
-import net.bizare.lunchvoteapp.model.Restaurant;
 import net.bizare.lunchvoteapp.service.DishService;
 import net.bizare.lunchvoteapp.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
-
-import static net.bizare.lunchvoteapp.util.ValidationUtil.checkNew;
-import static net.bizare.lunchvoteapp.util.ValidationUtil.checkIdConsistent;
 
 @Controller
 @RequestMapping("/restaurants/{restaurantId}/menus")
 class MenuController {
     private static final String CREATE_OR_UPDATE_MENU_FORM = "createOrUpdateMenuForm";
-    private static final int ADMIN_ID = 2;
     @Autowired
     private MenuService menuService;
     @Autowired
@@ -41,7 +32,7 @@ class MenuController {
     @RequestMapping(value = "/{menuId}/edit", method = RequestMethod.GET)
     public String update(@PathVariable("menuId") int menuId,
                          @PathVariable("restaurantId") int restaurantId, Model model) {
-        Menu menu = menuService.get(menuId, restaurantId, ADMIN_ID);
+        Menu menu = menuService.get(menuId, restaurantId);
         model.addAttribute("menu", menu);
         model.addAttribute("restaurantId", restaurantId);
         return CREATE_OR_UPDATE_MENU_FORM;
@@ -52,14 +43,14 @@ class MenuController {
                                      @PathVariable("restaurantId") int restaurantId) {
         if (result.hasErrors()) {
             if (menu.getId() != null) {
-                menu.setDishes(new HashSet<>(dishService.getAll(menu.getId(), ADMIN_ID)));
+                menu.setDishes(new HashSet<>(dishService.getAll(menu.getId())));
             }
             return CREATE_OR_UPDATE_MENU_FORM;
         } else {
             if (menu.isNew()) {
-                menuService.save(menu, restaurantId, ADMIN_ID);
+                menuService.save(menu, restaurantId);
             } else {
-                menuService.update(menu, restaurantId, ADMIN_ID);
+                menuService.update(menu, restaurantId);
             }
             return "redirect:/restaurants/" + restaurantId + "/edit";
         }
@@ -67,7 +58,7 @@ class MenuController {
 
     @RequestMapping(value = "/deleteAll")
     public String deleteAll(@PathVariable("restaurantId") int restaurantId) {
-        menuService.deleteAll(restaurantId, ADMIN_ID);
+        menuService.deleteAll(restaurantId);
         return "redirect:/restaurants/" + restaurantId + "/edit/";
     }
 }

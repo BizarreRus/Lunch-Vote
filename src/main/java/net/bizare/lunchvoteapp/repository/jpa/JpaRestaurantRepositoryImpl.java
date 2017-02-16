@@ -1,10 +1,7 @@
 package net.bizare.lunchvoteapp.repository.jpa;
 
 import net.bizare.lunchvoteapp.model.Restaurant;
-import net.bizare.lunchvoteapp.model.User;
 import net.bizare.lunchvoteapp.repository.RestaurantRepository;
-import net.bizare.lunchvoteapp.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
