@@ -8,7 +8,7 @@
 </head>
 <body>
 <c:set var="isNew" value="${empty userTo.id}"/>
-<jsp:include page="fragments/${isNew ? 'simpleNavbar' : 'navbar'}.jsp"/>
+<jsp:include page="fragments/navbar.jsp"/>
 
 <div class="container">
     <p class="title-font"><c:out value="${isNew ? 'Sign Up' : 'Profile'} page"/></p>

@@ -47,8 +47,7 @@ class UserController {
     }
 
     @GetMapping(value = "/profile")
-    public String profile(Model model) {
-        model.addAttribute("userTo", UserUtil.asTo(userService.get(AuthorizedUser.id())));
+    public String profile() {
         return "profile";
     }
 
@@ -59,9 +58,10 @@ class UserController {
         }
         if (userTo.isNew()){
             userService.save(UserUtil.createNewFromTo(userTo));
+            return "redirect:login?username=" + userTo.getEmail();
         } else {
             userService.update(userTo);
+            return "redirect:/restaurants";
         }
-        return "redirect:/restaurants";
     }
 }

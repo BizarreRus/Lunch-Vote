@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<jsp:include page="fragments/simpleNavbar.jsp"/>
+<jsp:include page="fragments/navbar.jsp"/>
 
 <div class="container">
     <p class="error-title">Oops, error!</p>

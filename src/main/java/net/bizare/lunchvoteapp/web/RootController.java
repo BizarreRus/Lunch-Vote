@@ -17,9 +17,7 @@ public class RootController {
     }
 
     @GetMapping(value = "/login")
-    public String login(ModelMap model,
-                        @RequestParam(value = "error", required = false) boolean error) {
-        model.put("error", error);
+    public String login(){
         return "login";
     }
 
@@ -27,13 +25,13 @@ public class RootController {
     public ModelAndView accessDenied(Principal user) {
         ModelAndView model = new ModelAndView();
         if (user != null) {
-            model.addObject("msg", "Hi " + AuthorizedUser.get().getUserTo().getName()
+            model.addObject("errorMessage", "Hi " + AuthorizedUser.get().getUserTo().getName()
                     + ", you do not have permission to access this page!");
         } else {
-            model.addObject("msg",
+            model.addObject("errorMessage",
                     "You do not have permission to access this page!");
         }
-        model.setViewName("accessDenied");
+        model.setViewName("error");
         return model;
     }
 }

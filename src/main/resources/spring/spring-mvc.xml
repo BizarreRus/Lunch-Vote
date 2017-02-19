@@ -22,4 +22,8 @@
           p:prefix="/WEB-INF/views/"
           p:suffix=".jsp"/>
 
+    <mvc:interceptors>
+        <bean class="net.bizare.lunchvoteapp.web.interceptor.ModelInterceptor"/>
+    </mvc:interceptors>
+
 </beans>

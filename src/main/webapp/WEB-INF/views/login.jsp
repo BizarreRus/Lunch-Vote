@@ -7,21 +7,7 @@
     <jsp:include page="fragments/headTag.jsp"/>
 </head>
 <body>
-
-<nav class="navbar navbar-default navbar-fixed-top custom-shadow">
-    <div class="container">
-        <div class="navbar-header">
-            <a href="${pageContext.request.contextPath}" class="navbar-brand">Lunch Vote App</a>
-        </div>
-        <ul class="nav navbar-nav navbar-right hidden-xs">
-            <li>
-                <a href="${pageContext.request.contextPath}/register" methods="post">
-                    <span class="glyphicon glyphicon-user"></span> Sign Up
-                </a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<jsp:include page="fragments/navbar.jsp"/>
 
 <div class="container">
 
@@ -55,11 +41,11 @@
                                            class="form-control" placeholder="Password">
                                 </div>
 
-                                <div class="error-message">
-                                    <c:if test="${error}">
+                                <c:if test="${param.error}">
+                                    <div class="error-message">
                                         Invalid email or password
-                                    </c:if>
-                                </div>
+                                    </div>
+                                </c:if>
                                 <br/>
 
                                 <div class="form-group">
@@ -131,6 +117,9 @@
 <jsp:include page="fragments/footer.jsp"/>
 
 <script type="text/javascript">
+    <c:if test="${not empty param.username}">
+    setCredentials("${param.username}", "");
+    </c:if>
     function setCredentials(username, password) {
         $('input[name="username"]').val(username);
         $('input[name="password"]').val(password);
