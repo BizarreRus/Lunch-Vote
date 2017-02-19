@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="lunchVote" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
     <title>Dish page</title>
@@ -33,19 +34,12 @@
                         <div class="col-lg-12">
                             <form:form id="login-form" name="form_login" action="restaurants/${restaurantId}/menus/${menuId}/dishes" method="post" role="form"
                                        style="display: block;" commandName="dish">
-                                <input type="hidden" name="id" value="${dish.id}">
 
-                                <div class="form-group">
-                                    <form:input path="name" type="text" name="name" tabindex="1" class="form-control"
-                                           placeholder="Dish name" value="${dish.name}"/>
-                                   <form:errors path="name" cssClass="error-message"/>
-                                </div>
+                                <lunchVote:inputField name="id" inputType="hidden"/>
 
-                                <div class="form-group">
-                                    <form:input path="price" type="number" step="0.01" name="price" tabindex="2" class="form-control"
-                                           placeholder="Dish price" value="${dish.price}"/>
-                                  <form:errors path="price" cssClass="error-message"/>
-                                </div>
+                                <lunchVote:inputField name="name" placeholder="Dish name"/>
+
+                                <lunchVote:inputField name="price" inputType="float" placeholder="Price"/>
 
                                 <div class="form-group">
                                     <div class="row">

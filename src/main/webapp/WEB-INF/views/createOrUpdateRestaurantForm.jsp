@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="lunchVote" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
     <title>Restaurant page</title>
@@ -34,29 +35,16 @@
                         <div class="col-lg-12">
                             <form:form id="login-form" name="form_login" action="restaurants" method="post" role="form"
                                        style="display: block;" commandName="restaurant">
-                                <input type="hidden" name="id" value="${restaurant.id}">
 
-                                <div class="form-group">
-                                    <form:input path="name" type="text" name="name" class="form-control"
-                                                placeholder="Restaurant name" value="${restaurant.name}"/>
-                                    <form:errors path="name" cssClass="error-message"/>
-                                </div>
+                                <lunchVote:inputField name="id" inputType="hidden"/>
 
-                                <div class="form-group">
-                                    <form:input id="visitDate" path="visitDate" type="text" name="visitDate"
-                                                class="form-control" placeholder="Visit date"
-                                                value="${restaurant.visitDate}"/>
-                                    <form:errors path="visitDate" cssClass="error-message"/>
-                                </div>
+                                <lunchVote:inputField name="name" placeholder="Restaurant name"/>
 
-                                <c:set var="hide" value="${today ? 'hidden' : 'number'}"/>
+                                <lunchVote:inputField name="visitDate" inputType="date" placeholder="Visit date"/>
 
-                                    <div class="form-group">
-                                        <form:input path="numOfVotes" type="${hide}" name="numOfVotes"
-                                                    class="form-control" placeholder="Number of votes"
-                                                    value="${restaurant.numOfVotes}"/>
-                                        <form:errors path="numOfVotes" cssClass="error-message"/>
-                                    </div>
+                                <lunchVote:inputField name="numOfVotes"
+                                                      inputType="${today && !empty restaurant.id ? 'hidden' : 'number'}"
+                                                      placeholder="Number of votes"/>
 
                                 <div class="form-group">
                                     <div class="row">
@@ -150,6 +138,7 @@
 
 <jsp:include page="fragments/footer.jsp"/>
 <script src="${pageContext.request.contextPath}/resources/js/menus.js"></script>
-<script type="text/javascript" src="webjars/datetimepicker/2.5.4/build/jquery.datetimepicker.full.min.js" defer></script>
+<script type="text/javascript" src="webjars/datetimepicker/2.5.4/build/jquery.datetimepicker.full.min.js"
+        defer></script>
 </body>
 </html>

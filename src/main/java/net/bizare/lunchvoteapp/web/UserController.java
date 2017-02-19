@@ -61,6 +61,7 @@ class UserController {
             return "redirect:login?username=" + userTo.getEmail();
         } else {
             userService.update(userTo);
+            AuthorizedUser.get().update(userTo);
             return "redirect:/restaurants";
         }
     }

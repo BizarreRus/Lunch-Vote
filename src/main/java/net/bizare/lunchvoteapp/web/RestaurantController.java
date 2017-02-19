@@ -35,19 +35,16 @@ class RestaurantController {
 
     @RequestMapping(value = "/restaurants/{restaurantId}/edit", method = RequestMethod.GET)
     public String update(@PathVariable("restaurantId") int restaurantId, Model model) {
-        Restaurant restaurant = restaurantService.get(restaurantId);
-        model.addAttribute(restaurant);
-        if (restaurant.getVisitDate().equals(LocalDate.now())) {
-            model.addAttribute("today", true);
-        }
+        model.addAttribute(addTodayAttr(restaurantId, model));
         return CREATE_OR_UPDATE_RESTAURANT_FORM;
     }
 
     @RequestMapping(value = "/restaurants", method = RequestMethod.POST)
-    public String createOrUpdateRestaurant(@Valid Restaurant restaurant, BindingResult result) {
+    public String createOrUpdateRestaurant(@Valid Restaurant restaurant, BindingResult result, Model model) {
         if (result.hasErrors()) {
             if (restaurant.getId() != null) {
                 restaurant.setMenus(new HashSet<>(menuService.getAll(restaurant.getId())));
+                addTodayAttr(restaurant.getId(), model);
             }
             return CREATE_OR_UPDATE_RESTAURANT_FORM;
         }
@@ -58,6 +55,14 @@ class RestaurantController {
         }
         return "redirect:/restaurants";
 
+    }
+
+    private Restaurant addTodayAttr(int restaurantId, Model model) {
+        Restaurant restaurant = restaurantService.get(restaurantId);
+        if (restaurant.getVisitDate().equals(LocalDate.now())) {
+            model.addAttribute("today", true);
+        }
+        return restaurant;
     }
 
     @RequestMapping(value = "/restaurants/history", method = RequestMethod.GET)

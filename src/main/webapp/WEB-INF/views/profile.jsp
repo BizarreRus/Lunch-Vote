@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="lunchVote" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
     <title>Lunch Vote App</title>
@@ -32,26 +33,13 @@
                         <div class="col-lg-12">
                             <form:form commandName="userTo" action="register" method="post" role="form"
                                        style="display: block;">
-                                <form:input path="id" type="hidden" name="id" value="${userTo.id}"/>
+                                <lunchVote:inputField name="id" inputType="hidden"/>
 
-                                <div class="form-group">
-                                    <form:input path="name" type="text" cssClass="form-control"
-                                                placeholder="Username" value="${userTo.name}"/>
-                                    <form:errors path="name" cssClass="error-message"/>
+                                <lunchVote:inputField name="name" placeholder="Username"/>
 
-                                </div>
+                                <lunchVote:inputField name="email" placeholder="Email"/>
 
-                                <div class="form-group">
-                                    <form:input path="email" type="text" cssClass="form-control"
-                                                placeholder="Email" value="${userTo.email}"/>
-                                    <form:errors path="email" cssClass="error-message"/>
-                                </div>
-
-                                <div class="form-group">
-                                    <form:input path="password" type="password" cssClass="form-control"
-                                                placeholder="Password" value="${userTo.password}"/>
-                                    <form:errors path="password" cssClass="error-message"/>
-                                </div>
+                                <lunchVote:inputField name="password" inputType="password" placeholder="Password"/>
 
                                 <div class="form-group">
                                     <div class="row">
