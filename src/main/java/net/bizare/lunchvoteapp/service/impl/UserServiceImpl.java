@@ -5,7 +5,6 @@ import net.bizare.lunchvoteapp.model.User;
 import net.bizare.lunchvoteapp.repository.UserRepository;
 import net.bizare.lunchvoteapp.service.UserService;
 import net.bizare.lunchvoteapp.to.UserTo;
-import net.bizare.lunchvoteapp.util.UserUtil;
 import net.bizare.lunchvoteapp.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +15,8 @@ import org.springframework.util.Assert;
 
 import java.util.*;
 
+import static net.bizare.lunchvoteapp.util.UserUtil.prepareToSave;
+import static net.bizare.lunchvoteapp.util.UserUtil.*;
 import static net.bizare.lunchvoteapp.util.ValidationUtil.*;
 
 @Service("userService")
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User save(User user) {
         Assert.notNull(user, "user must not be null");
-        return repository.save(user);
+        return repository.save(prepareToSave(user));
     }
 
     @Override
@@ -36,14 +37,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Assert.notNull(user, "user must not be null");
 
         user.setRoles(repository.get(user.getId()).getRoles());
-        repository.save(user);
+        repository.save(prepareToSave(user));
     }
 
     @Transactional
     @Override
     public void update(UserTo userTo) {
-        User user = get(userTo.getId());
-        repository.save(UserUtil.updateFromTo(user, userTo));
+        User user = updateFromTo(get(userTo.getId()), userTo);
+        repository.save(prepareToSave(user));
     }
 
 

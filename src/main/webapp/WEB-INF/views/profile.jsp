@@ -31,7 +31,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form:form commandName="userTo" action="register" method="post" role="form"
+                            <form:form commandName="userTo" action="${isNew ? 'register' : 'profile'}" method="post" role="form"
                                        style="display: block;">
                                 <lunchVote:inputField name="id" inputType="hidden"/>
 

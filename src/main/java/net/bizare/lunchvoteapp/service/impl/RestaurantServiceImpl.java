@@ -31,7 +31,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Transactional
     public Restaurant save(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
-
         return restaurantRepository.save(restaurant);
     }
 
@@ -50,7 +49,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         Vote vote = voteService.getVoteOfUser(userId, LocalDate.from(today));
 
-        if (vote != null){
+        if (vote != null) {
             checkAvailableVote(vote, id);
 
             Restaurant unvoted = restaurantRepository.get(vote.getRestaurant().getId());
@@ -64,7 +63,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.save(voted);
 
         Vote newVote = new Vote(vote == null ? null : vote.getId(), voted, userRepository.get(userId), voted.getVisitDate());
-        if (newVote.isNew()){
+        if (newVote.isNew()) {
             voteService.save(newVote);
         } else {
             voteService.update(newVote);

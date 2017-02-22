@@ -19,6 +19,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,7 +63,7 @@ public class RestaurantServiceImplTest {
     public void testSave() throws Exception {
         Restaurant created = getCreated();
         restaurantService.save(created);
-        MATCHER.assertCollectionEquals(getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3,created)),
+        MATCHER.assertCollectionEquals(getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3, RESTAURANT22, RESTAURANT23,created)),
                 restaurantService.getAll());
     }
 
@@ -101,7 +102,7 @@ public class RestaurantServiceImplTest {
     @Test
     public void testDelete() throws Exception {
         restaurantService.delete(RESTAURANT1_ID);
-        MATCHER.assertCollectionEquals(getSortedRestaurants(Arrays.asList(RESTAURANT2, RESTAURANT3)),
+        MATCHER.assertCollectionEquals(getSortedRestaurants(Arrays.asList(RESTAURANT2, RESTAURANT3, RESTAURANT22, RESTAURANT23)),
                 restaurantService.getAll());
     }
 
@@ -131,13 +132,13 @@ public class RestaurantServiceImplTest {
     @Test
     public void testGetAll() throws Exception {
         Collection<Restaurant> restaurants = restaurantService.getAll();
-        MATCHER.assertCollectionEquals(restaurants, getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3)));
+        MATCHER.assertCollectionEquals(restaurants, getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3, RESTAURANT22, RESTAURANT23)));
     }
 
     @Test
     public void testGetAllOfToday() throws Exception {
-        Collection<Restaurant> restaurants = restaurantService.getAllOfToday(TEST_DATE);
-        MATCHER.assertCollectionEquals(restaurants, getSortedRestaurants(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3)));
+        Collection<Restaurant> restaurants = restaurantService.getAllOfToday(LocalDate.now());
+        MATCHER.assertCollectionEquals(restaurants, getSortedRestaurants(Arrays.asList(RESTAURANT22, RESTAURANT23)));
     }
 
     @Test

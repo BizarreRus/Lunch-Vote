@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,7 +29,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form id="login-form" name="form_login" action="spring_security_check" method="post"
+                            <form:form id="login-form" name="form_login" action="spring_security_check" method="post"
                                   role="form"
                                   style="display: block;">
                                 <div class="form-group">
@@ -56,7 +57,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form:form>
                         </div>
                     </div>
                 </div>
@@ -107,7 +108,7 @@
     <div class="row">
         <div class="about-project">
             <p>
-                Стек технологий: Spring MVC, Spring Security, Hibernate ORM, Hibernate Validator, Logback, Json Simple,
+                Стек технологий: Spring MVC, Spring Security, Hibernate ORM, Hibernate Validator, Logback, Json Jackson,
                 Apache Tomcat, HSQLDB, JUnit, jQuery, Bootstrap, DataTimePicker plugin.
             </p>
         </div>

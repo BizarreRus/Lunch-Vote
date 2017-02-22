@@ -10,8 +10,8 @@
 
     <http use-expressions="true">
         <http-basic/>
-        <intercept-url pattern="/login" access="permitAll"/>
-        <intercept-url pattern="/register" access="permitAll"/>
+        <intercept-url pattern="/login" access="isAnonymous()"/>
+        <intercept-url pattern="/register" access="isAnonymous()"/>
 
         <intercept-url pattern="/restaurants" access="isAuthenticated()"/>
         <intercept-url pattern="/restaurants/**/vote" access="isAuthenticated()"/>
@@ -25,12 +25,13 @@
                     authentication-failure-url="/login?error=true"
                     login-processing-url="/spring_security_check"/>
         <logout logout-success-url="/login"/>
-        <csrf disabled="true"/>
-
     </http>
+
+    <beans:bean class="net.bizare.lunchvoteapp.util.PasswordUtil" id="passwordEncoder" factory-method="getPasswordEncoder"/>
 
     <authentication-manager>
         <authentication-provider user-service-ref="userService">
+            <password-encoder ref="passwordEncoder"/>
 
         </authentication-provider>
     </authentication-manager>

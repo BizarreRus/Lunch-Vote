@@ -24,6 +24,7 @@ public class Restaurant extends NamedEntity {
     public static final String GET = "Restaurant.get";
 
     @Column(name = "num_of_votes",nullable = false, columnDefinition = "int default 0")
+    @NotNull
     private Integer numOfVotes = 0;
 
     @Column(name = "date", nullable = false)

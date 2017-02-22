@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <nav class="navbar navbar-default navbar-fixed-top custom-shadow">
     <div class="container">
         <div class="navbar-header">
@@ -28,9 +30,11 @@
                     <span class="glyphicon glyphicon-user"></span> ${userTo.name} Profile
                 </a></li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/logout" methods="post">
-                        <span class="glyphicon glyphicon-log-out"></span> Logout
-                    </a>
+                    <form:form action="logout" class="navbar-form" method="post">
+                        <button class="btn btn-info" type="submit">
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout
+                        </button>
+                    </form:form>
                 </li>
             </sec:authorize>
         </ul>

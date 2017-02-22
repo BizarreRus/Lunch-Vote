@@ -6,8 +6,8 @@ DELETE FROM MENUS;
 DELETE FROM DISHES;
 
 INSERT INTO USERS (ID, NAME, PASSWORD, EMAIL) VALUES
-  (1, 'User', 'password', 'user@yandex.ru'),
-  (2, 'Admin', 'admin', 'admin@gmail.com');
+  (1, 'User', '$2a$10$Sh0ZD2NFrzRRJJEKEWn8l.92ROEuzlVyzB9SV1AM8fdluPR0aC1ni', 'user@yandex.ru'),
+  (2, 'Admin', '$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju', 'admin@gmail.com');
 
 INSERT INTO USER_ROLES (role, user_id) VALUES
   ('ROLE_USER', 1),

@@ -6,32 +6,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GlobalExceptionHandlingController {
     private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandlingController.class);
 
+    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(NotFoundException.class)
+    @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public ModelAndView handleError(HttpServletRequest req, Exception ex) {
+    public ModelAndView handleNotFound(HttpServletRequest req, NotFoundException ex) {
         LOG.error("Request: " + req.getRequestURL() + " raised " + ex);
         return getModel(ex.getMessage());
     }
 
-    @ExceptionHandler(PersistenceException.class)
-    @Order(Ordered.HIGHEST_PRECEDENCE + 1)
-    public ModelAndView handleSQLError(HttpServletRequest req, Exception ex) {
-        LOG.error("Request: " + req.getRequestURL() + " raised " + ex);
-        return getModel("Current email is already exists");
-    }
-
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
+    @ResponseBody
     @Order(Ordered.LOWEST_PRECEDENCE)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception ex) throws Exception {
         LOG.error("Request: " + req.getRequestURL() + " raised " + ex);

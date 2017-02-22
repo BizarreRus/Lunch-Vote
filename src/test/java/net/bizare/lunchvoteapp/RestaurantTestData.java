@@ -20,15 +20,15 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT2 = new Restaurant(RESTAURANT1_ID + 1, "Ristorante Da Agostino", 13, LocalDate.of(2016, Month.DECEMBER, 31));
     public static final Restaurant RESTAURANT3 = new Restaurant(RESTAURANT1_ID + 2, "Trattoria Pizzeria SPQR", 9, LocalDate.of(2016, Month.DECEMBER, 31));
 
-
+    public static final Restaurant RESTAURANT22 = new Restaurant(RESTAURANT1_ID + 19, "Ресторан MAFIA", 0, LocalDate.now());
+    public static final Restaurant RESTAURANT23 = new Restaurant(RESTAURANT1_ID + 20, "Ресторан Panorama Lounge", 0, LocalDate.now());
 
     public static final LocalDateTime PERMISSIBLE_DATE_TIME = LocalDateTime.of(2016, Month.DECEMBER, 31, 10, 0);
     public static final LocalDateTime NON_PERMISSIBLE_DATE_TIME = LocalDateTime.of(2016, Month.DECEMBER, 31, 12, 0);
-    public static final LocalDate TEST_DATE = LocalDate.of(2016, Month.DECEMBER, 31);
 
     public static List<Restaurant> getSortedRestaurants(List<Restaurant> restaurants) {
         return restaurants.stream()
-                .sorted(Comparator.comparing(Restaurant::getVisitDate))
+                .sorted(Comparator.comparing(Restaurant::getVisitDate).reversed())
                 .collect(Collectors.toList());
     }
 

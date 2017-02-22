@@ -4,7 +4,6 @@ import net.bizare.lunchvoteapp.AuthorizedUser;
 import net.bizare.lunchvoteapp.service.DishService;
 import net.bizare.lunchvoteapp.service.MenuService;
 import net.bizare.lunchvoteapp.service.RestaurantService;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +20,9 @@ public class AjaxController {
     private DishService dishService;
 
     @GetMapping(value = "/restaurants/{id}/vote", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String vote(@PathVariable("id") int id) {
-        JSONObject obj = new JSONObject();
+    public Integer vote(@PathVariable("id") int id) {
         Integer unvotedId = restaurantService.vote(id, AuthorizedUser.id(), LocalDateTime.now());
-        obj.put("unVotedId", unvotedId);
-        return unvotedId == null ? null : obj.toString();
+        return unvotedId == null ? null : unvotedId;
     }
 
     @DeleteMapping(value = "/restaurants/{restaurantId}")
