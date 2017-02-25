@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.PersistenceException;
 import javax.validation.Valid;
@@ -33,7 +34,7 @@ class UserController {
             try {
                 userService.save(UserUtil.createNewFromTo(userTo));
             } catch (PersistenceException e) {
-                result.rejectValue("email", null,"данный ящик уже используется");
+                result.rejectValue("email", null, "данный ящик уже используется");
                 return "profile";
             }
             return "redirect:login?username=" + userTo.getEmail();
@@ -41,8 +42,15 @@ class UserController {
     }
 
     @GetMapping(value = "/profile")
-    public String profile() {
-        return "profile";
+    public ModelAndView profile(ModelAndView modelAndView) {
+        modelAndView.setViewName("profile");
+        AuthorizedUser authorizedUser = AuthorizedUser.safeGet();
+        if (authorizedUser != null) {
+            UserTo userTo = authorizedUser.getUserTo();
+            userTo.setPassword("");
+            modelAndView.getModelMap().addAttribute("userTo", userTo);
+        }
+        return modelAndView;
     }
 
     @PostMapping(value = "/profile")
@@ -53,7 +61,7 @@ class UserController {
         try {
             userService.update(userTo);
         } catch (DataIntegrityViolationException e) {
-            result.rejectValue("email", null,"данный ящик уже используется");
+            result.rejectValue("email", null, "данный ящик уже используется");
             return "profile";
         }
         AuthorizedUser.get().update(userTo);

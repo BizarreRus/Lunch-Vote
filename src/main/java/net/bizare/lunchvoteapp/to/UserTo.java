@@ -2,6 +2,8 @@ package net.bizare.lunchvoteapp.to;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -11,13 +13,16 @@ public class UserTo implements Serializable {
     private Integer id;
 
     @NotBlank
+    @SafeHtml
     private String name;
 
     @Email
     @NotBlank
+    @SafeHtml
     private String email;
 
     @Size(min = 5, max = 64)
+    @SafeHtml
     private String password;
 
     public UserTo() {

@@ -1,9 +1,7 @@
 package net.bizare.lunchvoteapp.model;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.hibernate.validator.constraints.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,11 +24,13 @@ public class User extends NamedEntity {
     @Column(name = "password", nullable = false)
     @NotBlank
     @Length(min = 5)
+    @SafeHtml
     private String password;
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
+    @SafeHtml
     private String email;
 
     @Column(name = "registered", columnDefinition = "timestamp default now()")
