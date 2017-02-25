@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.PersistenceException;
 import javax.validation.Valid;
@@ -42,15 +41,8 @@ class UserController {
     }
 
     @GetMapping(value = "/profile")
-    public ModelAndView profile(ModelAndView modelAndView) {
-        modelAndView.setViewName("profile");
-        AuthorizedUser authorizedUser = AuthorizedUser.safeGet();
-        if (authorizedUser != null) {
-            UserTo userTo = authorizedUser.getUserTo();
-            userTo.setPassword("");
-            modelAndView.getModelMap().addAttribute("userTo", userTo);
-        }
-        return modelAndView;
+    public String profile() {
+        return "profile";
     }
 
     @PostMapping(value = "/profile")

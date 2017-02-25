@@ -10,7 +10,7 @@
     <div class="form-group">
         <c:choose>
             <c:when test="${inputType == 'password'}">
-                <form:input type="password" cssClass="form-control" path="${name}" class="form-control" placeholder="${placeholder}"/></c:when>
+                <form:password cssClass="form-control" path="${name}" class="form-control" placeholder="${placeholder}"/></c:when>
 
             <c:when test="${inputType == 'number'}">
                 <form:input path="${name}" cssClass="form-control" type="number" class="form-control"  placeholder="${placeholder}"/></c:when>
