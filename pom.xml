@@ -11,6 +11,7 @@
 
     <version>1.0-SNAPSHOT</version>
     <name>Lunch Vote App</name>
+    <url>https://lunch-vote-app.herokuapp.com/</url>
 
     <properties>
         <java.version>1.8</java.version>
