@@ -1,6 +1,5 @@
 package net.bizare.lunchvoteapp.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.validator.constraints.*;
 
 import javax.persistence.*;

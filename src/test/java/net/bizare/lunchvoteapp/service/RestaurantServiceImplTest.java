@@ -22,6 +22,7 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -140,7 +141,7 @@ public class RestaurantServiceImplTest {
 
     @Test
     public void testGetAllOfToday() throws Exception {
-        Collection<Restaurant> restaurants = restaurantService.getAllOfToday(LocalDate.now());
+        Collection<Restaurant> restaurants = restaurantService.getAllOfToday(LocalDate.now(ZoneId.of("UTC+02:00")));
         MATCHER.assertCollectionEquals(restaurants, getSortedRestaurants(Arrays.asList(RESTAURANT22, RESTAURANT23)));
     }
 

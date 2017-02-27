@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,7 +28,7 @@ class RestaurantController {
     @RequestMapping(value = "/restaurants/new", method = RequestMethod.GET)
     public String create(Map<String, Object> model) {
         Restaurant restaurant = new Restaurant();
-        restaurant.setVisitDate(LocalDate.now());
+        restaurant.setVisitDate(LocalDate.now(ZoneId.of("UTC+02:00")));
         model.put("restaurant", restaurant);
         return CREATE_OR_UPDATE_RESTAURANT_FORM;
     }
@@ -59,7 +60,7 @@ class RestaurantController {
 
     private Restaurant addTodayAttr(int restaurantId, Model model) {
         Restaurant restaurant = restaurantService.get(restaurantId);
-        if (restaurant.getVisitDate().equals(LocalDate.now())) {
+        if (restaurant.getVisitDate().equals(LocalDate.now(ZoneId.of("UTC+02:00")))) {
             model.addAttribute("today", true);
         }
         return restaurant;
@@ -69,13 +70,13 @@ class RestaurantController {
     public String getAll(Model model) {
         model.addAttribute("restaurants", restaurantService.getAll());
         model.addAttribute("history", true);
-        model.addAttribute("today", LocalDate.now());
+        model.addAttribute("today", LocalDate.now(ZoneId.of("UTC+02:00")));
         return "restaurants";
     }
 
     @RequestMapping(value = "/restaurants", method = RequestMethod.GET)
     public String getAllOfToday(Map<String, Object> model) {
-        Collection<Restaurant> restaurants = restaurantService.getAllOfToday(LocalDate.now());
+        Collection<Restaurant> restaurants = restaurantService.getAllOfToday(LocalDate.now(ZoneId.of("UTC+02:00")));
         model.put("restaurants", restaurants);
         return "restaurants";
     }

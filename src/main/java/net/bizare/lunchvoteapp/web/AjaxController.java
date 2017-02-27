@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @RestController
 public class AjaxController {
@@ -21,7 +22,7 @@ public class AjaxController {
 
     @GetMapping(value = "/restaurants/{id}/vote", produces = MediaType.APPLICATION_JSON_VALUE)
     public Integer vote(@PathVariable("id") int id) {
-        Integer unvotedId = restaurantService.vote(id, AuthorizedUser.id(), LocalDateTime.now());
+        Integer unvotedId = restaurantService.vote(id, AuthorizedUser.id(), LocalDateTime.now(ZoneId.of("UTC+02:00")));
         return unvotedId == null ? null : unvotedId;
     }
 

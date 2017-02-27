@@ -6,6 +6,7 @@ import net.bizare.lunchvoteapp.model.Restaurant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,8 +23,8 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT2 = new Restaurant(RESTAURANT1_ID + 1, "Ristorante Da Agostino", 13, LocalDate.of(2016, Month.DECEMBER, 31));
     public static final Restaurant RESTAURANT3 = new Restaurant(RESTAURANT1_ID + 2, "Trattoria Pizzeria SPQR", 9, LocalDate.of(2016, Month.DECEMBER, 31));
 
-    public static final Restaurant RESTAURANT22 = new Restaurant(RESTAURANT1_ID + 19, "Ресторан MAFIA", 0, LocalDate.now());
-    public static final Restaurant RESTAURANT23 = new Restaurant(RESTAURANT1_ID + 20, "Ресторан Panorama Lounge", 0, LocalDate.now());
+    public static final Restaurant RESTAURANT22 = new Restaurant(RESTAURANT1_ID + 19, "Ресторан MAFIA", 0, LocalDate.now(ZoneId.of("UTC+02:00")));
+    public static final Restaurant RESTAURANT23 = new Restaurant(RESTAURANT1_ID + 20, "Ресторан Panorama Lounge", 0, LocalDate.now(ZoneId.of("UTC+02:00")));
 
     public static final LocalDateTime PERMISSIBLE_DATE_TIME = LocalDateTime.of(2016, Month.DECEMBER, 31, 10, 0);
     public static final LocalDateTime NON_PERMISSIBLE_DATE_TIME = LocalDateTime.of(2016, Month.DECEMBER, 31, 12, 0);
