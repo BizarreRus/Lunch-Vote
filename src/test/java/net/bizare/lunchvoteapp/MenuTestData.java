@@ -7,10 +7,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static net.bizare.lunchvoteapp.model.BaseEntity.START_SEQ;
+
 public class MenuTestData {
     public static final ModelMatcher<Menu> MATCHER = new ModelMatcher<>();
 
-    public static final int MENU_ID1 = 6;
+    public static final int MENU_ID1 = START_SEQ + 5;
     public static final int NON_EXISTED_MENU_ID = 100;
 
     public static final Menu MENU1 = new Menu(MENU_ID1, "Menu turistico");

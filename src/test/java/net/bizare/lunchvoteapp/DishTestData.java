@@ -7,10 +7,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static net.bizare.lunchvoteapp.model.BaseEntity.START_SEQ;
+
 public class DishTestData {
     public static final ModelMatcher<Dish> MATCHER = new ModelMatcher<>();
 
-    public static final int DISH1_ID = 10;
+    public static final int DISH1_ID = START_SEQ + 9;
     public static final int NON_EXISTED_DISH_ID = 100;
 
     public static final Dish DISH1 = new Dish(DISH1_ID, "Paccheri al ragù di cernia", 252.0);

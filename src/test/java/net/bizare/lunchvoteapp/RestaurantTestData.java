@@ -9,11 +9,13 @@ import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.bizare.lunchvoteapp.model.BaseEntity.START_SEQ;
+
 public class RestaurantTestData {
 
     public static final ModelMatcher<Restaurant> MATCHER = new ModelMatcher<>();
 
-    public static final int RESTAURANT1_ID = 3;
+    public static final int RESTAURANT1_ID = START_SEQ + 2;
     public static final int NON_EXISTED_RESTAURANT_ID = 100;
 
     public static final Restaurant RESTAURANT1 = new Restaurant(RESTAURANT1_ID, "Ristorante Isolabella", 7, LocalDate.of(2016, Month.DECEMBER, 31));

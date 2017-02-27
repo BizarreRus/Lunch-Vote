@@ -14,22 +14,14 @@
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:property-placeholder location="classpath:db/hsqldb.properties" file-encoding="UTF-8" system-properties-mode="OVERRIDE"/>
-
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
-        <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
+        <jdbc:script encoding="utf-8" location="classpath:db/populate.sql"/>
     </jdbc:initialize-database>
 
-    <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${database.driverClassName}"/>
-        <property name="url" value="${database.url}"/>
-        <property name="username" value="${database.username}"/>
-        <property name="password" value="${database.password}"/>
-    </bean>
+    <tx:annotation-driven/>
 
-    <context:component-scan base-package="net.bizare.**.repository.jpa" />
+    <context:component-scan base-package="net.bizare.**.repository.jpa"/>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource"
@@ -37,10 +29,10 @@
 
         <property name="jpaPropertyMap">
             <map>
-                 <!--todo togli alla fine!-->
+                <!--todo togli alla fine!-->
                 <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
-                <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}" value="${hibernate.use_sql_comments}"/>
-                <entry key="#{T(org.hibernate.cfg.AvailableSettings).DIALECT}" value="org.hibernate.dialect.HSQLDialect"/>
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}"
+                       value="${hibernate.use_sql_comments}"/>
             </map>
         </property>
 
@@ -51,8 +43,54 @@
         </property>
     </bean>
 
-    <tx:annotation-driven/>
-
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
           p:entityManagerFactory-ref="entityManagerFactory"/>
+
+    <beans profile="hsqldb">
+        <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+
+        <!--no pooling-->
+        <bean id="dataSource"
+              class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+              p:driverClassName="org.hsqldb.jdbcDriver"
+              p:url="${database.url}"
+              p:username="${database.username}"
+              p:password="${database.password}"/>
+    </beans>
+
+    <beans profile="postgres">
+        <context:property-placeholder location="classpath:db/postgres.properties"/>
+
+        <bean id="dataSource"
+              class="org.apache.tomcat.jdbc.pool.DataSource"
+              p:driverClassName="org.postgresql.Driver"
+              p:url="${database.url}"
+              p:username="${database.username}"
+              p:password="${database.password}"/>
+    </beans>
+
+    <beans profile="heroku">
+        <context:property-placeholder location="classpath:/db/heroku.properties" system-properties-mode="OVERRIDE"/>
+
+        <bean class="java.net.URI" id="dbUrl">
+            <constructor-arg value="${DATABASE_URL}"/>
+        </bean>
+        <bean id="dataSource"
+              class="org.apache.tomcat.jdbc.pool.DataSource"
+              p:url="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + @dbUrl.getPath() }"
+              p:username="#{ @dbUrl.getUserInfo().split(':')[0] }"
+              p:password="#{ @dbUrl.getUserInfo().split(':')[1] }"
+              p:driverClassName="org.postgresql.Driver"
+              p:validationQuery="SELECT 1"
+              p:maxActive="10"
+              p:minIdle="2"
+              p:maxWait="20000"
+              p:initialSize="2"
+              p:maxIdle="5"
+              p:testOnBorrow="true"
+              p:removeAbandoned="true"
+              p:testOnConnect="true"
+              p:testWhileIdle="true"/>
+    </beans>
+
 </beans>

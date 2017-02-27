@@ -1,15 +1,17 @@
 package net.bizare.lunchvoteapp.model;
 
-
 import javax.persistence.*;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
 public class BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+    public static final int START_SEQ = 100001;
 
+    @Id
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = 100001)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    @Access(AccessType.PROPERTY)
+    protected Integer id;
 
     public BaseEntity() {
     }

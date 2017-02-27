@@ -1,5 +1,6 @@
 package net.bizare.lunchvoteapp.service;
 
+import net.bizare.lunchvoteapp.ActiveDbProfileResolver;
 import net.bizare.lunchvoteapp.model.Menu;
 import net.bizare.lunchvoteapp.util.exception.NotFoundException;
 import org.junit.Rule;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -29,7 +31,8 @@ import static net.bizare.lunchvoteapp.RestaurantTestData.NON_EXISTED_RESTAURANT_
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@ActiveProfiles(resolver = ActiveDbProfileResolver.class)
+@Sql(scripts = "classpath:db/populate.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MenuServiceImplTest {
     private static final Logger LOG = LoggerFactory.getLogger(MenuServiceImplTest.class);
 

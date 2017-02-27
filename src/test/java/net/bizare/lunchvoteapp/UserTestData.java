@@ -8,16 +8,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static net.bizare.lunchvoteapp.model.BaseEntity.START_SEQ;
+
 public class UserTestData {
     private static final Logger LOG = LoggerFactory.getLogger(UserTestData.class);
 
-    public static final int USER_ID = 1;
-    private static final int ADMIN_ID = 2;
+    public static final int USER_ID = START_SEQ;
+    private static final int ADMIN_ID = START_SEQ + 1;
 
     public static final User USER = new User(USER_ID, "User", "password", "user@yandex.ru", Role.ROLE_USER);
     public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin", "admin@gmail.com", Role.ROLE_ADMIN, Role.ROLE_USER);
