@@ -24,12 +24,6 @@ public class VoteServiceImpl implements VoteService{
     }
 
     @Override
-    @Transactional
-    public void delete(int id) {
-        voteRepository.delete(id);
-    }
-
-    @Override
     public Vote get(int id) {
         return voteRepository.get(id);
     }

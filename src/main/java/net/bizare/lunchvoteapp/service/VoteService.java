@@ -9,8 +9,6 @@ public interface VoteService {
 
     Vote save(Vote vote);
 
-    void delete(int id);
-
     Vote get(int id);
 
     List<Vote> getAll();
