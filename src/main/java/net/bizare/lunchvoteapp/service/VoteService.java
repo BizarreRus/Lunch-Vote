@@ -9,8 +9,6 @@ public interface VoteService {
 
     Vote save(Vote vote);
 
-  /*  Vote get(int id);*/
-
     List<Vote> getAll();
 
     Integer getCount(int restaurantId, LocalDate voteDate);
