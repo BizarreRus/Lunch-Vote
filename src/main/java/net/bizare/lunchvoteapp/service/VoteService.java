@@ -9,7 +9,7 @@ public interface VoteService {
 
     Vote save(Vote vote);
 
-    Vote get(int id);
+  /*  Vote get(int id);*/
 
     List<Vote> getAll();
 

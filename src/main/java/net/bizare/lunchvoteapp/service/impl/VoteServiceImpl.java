@@ -23,10 +23,10 @@ public class VoteServiceImpl implements VoteService{
         return voteRepository.save(vote);
     }
 
-    @Override
+   /* @Override
     public Vote get(int id) {
         return voteRepository.get(id);
-    }
+    }*/
 
     @Override
     public List<Vote> getAll() {
