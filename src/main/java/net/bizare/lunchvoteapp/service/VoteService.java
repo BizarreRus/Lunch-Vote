@@ -11,7 +11,7 @@ public interface VoteService {
 
     List<Vote> getAll();
 
-    Integer getCount(int restaurantId, LocalDate voteDate);
+//    Integer getCount(int restaurantId, LocalDate voteDate);
 
     Vote getVoteOfUser(int userId, LocalDate voteDate);
 
