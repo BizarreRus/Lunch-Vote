@@ -23,10 +23,10 @@ public class VoteServiceImpl implements VoteService{
         return voteRepository.save(vote);
     }
 
-    @Override
+    /*@Override
     public List<Vote> getAll() {
         return (List<Vote>) voteRepository.getAll();
-    }
+    }*/
 
   /*  @Override
     public Integer getCount(int restaurantId, LocalDate voteDate) {

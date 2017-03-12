@@ -9,7 +9,7 @@ public interface VoteService {
 
     Vote save(Vote vote);
 
-    List<Vote> getAll();
+//    List<Vote> getAll();
 
 //    Integer getCount(int restaurantId, LocalDate voteDate);
 
